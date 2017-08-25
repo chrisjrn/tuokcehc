@@ -1,0 +1,123 @@
+Epirts.js
+=========
+
+This is Epirts.js, a free software replacement for Stripe.js implementing a
+subset of the Stripe.js API.
+
+With Epirts.js, a merchant can use Stripe to process payments and ensure that no
+non-free JavaScript programs are distributed to customers.
+
+API
+===
+
+Epirts.js is compatible with Stripe.js version 2.  Currently Epirts.js only
+supports validating and tokenizing payment cards.
+
+Methods
+-------
+
+  * `Epirts.setPublishableKey(key)`
+
+    Sets a test or live publishable key.
+
+  * `Epirts.card.createToken(card, [amount,] callback)`
+
+    Creates a single-use token that represents a payment card.
+
+    Example:
+
+        Epirts.card.createToken({
+            number: '4242424242424242',
+            exp_month: 12,
+            exp_year: 2016,
+            cvc: '123'
+        }, stripeResponseHandler);
+
+    The callback function will be given two arguments, a `status` code and a
+    `response` object.
+
+  * `Epirts.card.validateCardNumber(number)`
+
+    Checks that the card number appears valid and passes the Luhn check.
+
+    Examples:
+
+        Epirts.card.validate('42424242');             // false
+        Epirts.card.validate('4242424242424242');     // true
+        Epirts.card.validate('4242-4242-4242-4242');  // true
+        Epirts.card.validate('4242 4242 4242 4242');  // true
+        Epirts.card.validate('4242 424242424242');    // true
+        Epirts.card.validate('42424242424242r2');     // false
+        Epirts.card.validate('4242-4242-4242-4240');  // false
+
+  * `Epirts.card.validateEpiry(month, year)`
+
+    Checks that the expiration date is a valid month in the future.
+
+    Examples:
+
+        Epirts.card.validateExpiry('01', '1970');  // false
+        Epirts.card.validateExpiry('01', '2020');  // true
+        Epirts.card.validateExpiry(1, 2020);       // true
+
+  * `Epirts.card.validateCVC(cvc)`
+
+    Checks that the CVC appears valid.
+
+    Examples:
+
+        Epirts.card.validateCVC('123')  // true
+        Epirts.card.validateCVC('1')    // false
+
+  * `Epirts.card.cardType(number)`
+
+    Detects the card type based on the first two digits of the Issuer
+    Identification Number (the first six digits of the card number).  Returns
+    the card brand name as a string, or "Unknown" if the card's issuer is
+    unsupported.  The supported card brand names are "Visa", "MasterCard",
+    "American Express", "JCB", "Discover", and "Diners Club".
+
+    Examples:
+
+        Epirts.card.cardType('4242-4242-4242-4242');  // "Visa"
+        Epirts.card.cardType('378282246310005');      // "American Express"
+        Epirts.card.cardType('1234');                 // "Unknown"
+
+PCI DSS Compliance
+==================
+
+All merchants who accept payment cards must comply with the Payment Card
+Industry Data Security Standards.  Merchants classified in Levels 2 through 4
+may complete an annual Self-Assessment Questionnaire.
+
+E-commerce merchants who "fully outsource" all cardholder data processing to a
+PCI DSS compliant third-party payment processor (by redirecting to or loading in
+an iframe a payment page served by the payment processor) can file SAQ A.  This
+applies to merchants who use the non-free Stripe.js program, because it loads a
+payment page from Stripe in an iframe.
+
+E-commerce merchants who "partially outsource" their payment processing (e.g. by
+serving their own payment page and sending cardholder data to a payment
+processor by JSONP) must file the longer SAQ A-EP and have quarterly
+vulnerability scans performed by an Approved Scanning Vendor.  This applies to
+merchants who use Epirts.js, because it uses JSONP instead of an iframe, to
+avoid causing the customer to run non-free JavaScript programs loaded by
+Stripe's payment page.
+
+Therefore, under PCI DSS 3.0, **Epirts.js may not be used to process live
+payment cards without first completing PCI SAQ A-EP and having an ASV perform
+quarterly vulnerability scans**.  Currently, the only way to control your
+store's checkout process and ensure that no non-free JavaScript programs are
+distributed to your customers is to use a program like Epirts.js (or process
+cardholder data directly on your server) and pay for a scanning service.  Such
+is the state of payment processing.
+
+Copyright Information
+=====================
+
+Copyright (C) 2015  Libiquity LLC
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.  This file is offered as-is,
+without any warranty.
