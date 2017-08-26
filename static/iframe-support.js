@@ -73,5 +73,3 @@ function stripeResponseHandler(status, response) {
         parent.postMessage({"token": token}, window.referrer);
     }
 }
-
-console.log(window.referrer);

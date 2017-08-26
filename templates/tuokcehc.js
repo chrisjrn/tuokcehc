@@ -91,6 +91,10 @@ function receiveTuokcehcMessage(message) {
     data = message.data;
     token = data.token;
 
+    if (event.origin != "{{ request.scheme }}://{{ request.host }}") {
+        return;
+    }
+
     tuokcehcStripeCallback(token);
     closePaymentFrame();
 }
