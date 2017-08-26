@@ -32,6 +32,7 @@
 
 
 var TUOKCEHC_PAYMENT_FRAME_ID = "tuokcehc-payment-frame"
+
 function doCheckout() {
 
     /* Create background element */
@@ -54,8 +55,9 @@ function doCheckout() {
     bgDiv.appendChild(containingDiv);
 
     /* Create iframe */
+    FORM_IFRAME_NAME = "tuokcehc-iframe";
     iframe = document.createElement("iframe");
-    iframe.setAttribute("name", "tuokcehc-iframe");
+    iframe.setAttribute("name", FORM_IFRAME_NAME);
     /* iframe.setAttribute("src", "form.html"); */
     iframe.setAttribute(
         "style",
@@ -63,10 +65,19 @@ function doCheckout() {
     );
     containingDiv.appendChild(iframe);
 
+    /* Create a form to post data into the iframe */
     form = document.createElement("form");
-    form.setAttribute("action", "form.html");
-    form.setAttribute("target", "tuokcehc-iframe");
+    form.setAttribute("action", "http://localhost:5000/form"); // TODO: make this load elsewhere.
+    form.setAttribute("target", FORM_IFRAME_NAME);
+    form.setAttribute("method", "POST");
     form.setAttribute("hidden", true);
+
+    pubkeyInput = document.createElement("input");
+    pubkeyInput.setAttribute("name", "pubkey");
+    pubkeyInput.setAttribute("type", "hidden");
+    pubkeyInput.setAttribute("value", tuokcehcStripePublishableKey);
+    form.appendChild(pubkeyInput);
+
     bgDiv.appendChild(form);
     form.submit();
 
@@ -77,11 +88,17 @@ function closePaymentFrame() {
     document.body.removeChild(element);
 }
 
-function receiveMessage(message) {
+function receiveTuokcehcMessage(message) {
     data = message.data;
     token = data.token;
     console.log(token);
     closePaymentFrame();
 }
 
-window.addEventListener("message", receiveMessage, false);
+
+var tuokcehcStripePublishableKey = "";
+function setStripePublishableKey(newStripePublishableKey) {
+    tuokcehcStripePublishableKey = newStripePublishableKey;
+}
+
+window.addEventListener("message", receiveTuokcehcMessage, false);
