@@ -58,7 +58,6 @@ function doCheckout() {
     FORM_IFRAME_NAME = "tuokcehc-iframe";
     iframe = document.createElement("iframe");
     iframe.setAttribute("name", FORM_IFRAME_NAME);
-    /* iframe.setAttribute("src", "form.html"); */
     iframe.setAttribute(
         "style",
         "width: 100%; height: 100%; border: 0;"
@@ -67,7 +66,7 @@ function doCheckout() {
 
     /* Create a form to post data into the iframe */
     form = document.createElement("form");
-    form.setAttribute("action", "http://localhost:5000/form"); // TODO: make this load elsewhere.
+    form.setAttribute("action", "{{ request.scheme }}://{{ request.host }}/form");
     form.setAttribute("target", FORM_IFRAME_NAME);
     form.setAttribute("method", "POST");
     form.setAttribute("hidden", true);
