@@ -70,7 +70,8 @@ function stripeResponseHandler(status, response) {
 
         // Get the token ID:
         var token = response.id;
-        // TODO: replace "*" with KNOWN origin of calling context
-        parent.postMessage({"token": token}, "*");
+        parent.postMessage({"token": token}, window.referrer);
     }
 }
+
+console.log(window.referrer);

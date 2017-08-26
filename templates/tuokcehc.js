@@ -90,7 +90,8 @@ function closePaymentFrame() {
 function receiveTuokcehcMessage(message) {
     data = message.data;
     token = data.token;
-    console.log(token);
+
+    tuokcehcStripeCallback(token);
     closePaymentFrame();
 }
 
@@ -98,6 +99,17 @@ function receiveTuokcehcMessage(message) {
 var tuokcehcStripePublishableKey = "";
 function setStripePublishableKey(newStripePublishableKey) {
     tuokcehcStripePublishableKey = newStripePublishableKey;
+}
+
+
+var tuokcehcStripeCallback = function(token) {
+    console.log("Replace this callback by calling setStripeTokenCallback()");
+    console.log(token);
+}
+
+
+function setStripeTokenCallback(newCallback) {
+  tuokcehcStripeCallback = newCallback;
 }
 
 window.addEventListener("message", receiveTuokcehcMessage, false);
