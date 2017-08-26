@@ -55,12 +55,20 @@ function doCheckout() {
 
     /* Create iframe */
     iframe = document.createElement("iframe");
-    iframe.setAttribute("src", "form.html");
+    iframe.setAttribute("name", "tuokcehc-iframe");
+    /* iframe.setAttribute("src", "form.html"); */
     iframe.setAttribute(
         "style",
         "width: 100%; height: 100%; border: 0;"
     );
     containingDiv.appendChild(iframe);
+
+    form = document.createElement("form");
+    form.setAttribute("action", "form.html");
+    form.setAttribute("target", "tuokcehc-iframe");
+    form.setAttribute("hidden", true);
+    bgDiv.appendChild(form);
+    form.submit();
 
 }
 
