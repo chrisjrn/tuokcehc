@@ -64,6 +64,18 @@ function doCheckout() {
     );
     containingDiv.appendChild(iframe);
 
+    /* Create a big "x" button in the top-right */
+    closeyLink = document.createElement("a");
+    closeyLink.setAttribute(
+        "style",
+        "font-size: xx-large; font-family: sans-serif; color: white;" +
+        "position: absolute; top: 10px; right: 20px; "
+    );
+    closeyLink.addEventListener("click", closePaymentFrame);
+    closeyText = document.createTextNode("×");
+    closeyLink.appendChild(closeyText);
+    bgDiv.appendChild(closeyLink);
+
     /* Create a form to post data into the iframe */
     form = document.createElement("form");
     form.setAttribute("action", "{{ request.scheme }}://{{ request.host }}/form");
@@ -88,6 +100,7 @@ function closePaymentFrame() {
 }
 
 function receiveTuokcehcMessage(message) {
+    console.log(message);
     data = message.data;
     token = data.token;
 

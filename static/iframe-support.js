@@ -34,7 +34,7 @@
 function onFormSubmit(event) {
     $form = $("#paymentform");
 
-    $form.find('button').prop('disabled', true); // Re-enable submission
+    $form.find('button[role=submit]').prop('disabled', true); // Re-enable submission
 
     fields = [
         'number', 'exp_month', 'exp_year', 'cvc', 'name',

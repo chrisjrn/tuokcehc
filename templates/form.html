@@ -114,7 +114,9 @@
           </div>
 
           <div class="panel-footer">
+            <div id="submit-block">
             <button class="btn btn-primary" role="submit">Submit</button>
+          </div>
           </div>
 
         </div>
@@ -122,6 +124,7 @@
     </form>
 
     <script type="text/javascript">
+      $("#loading-info").hide();
       $("#paymentform").submit(onFormSubmit);
     </script>
 
