@@ -1,7 +1,23 @@
+<!---
+Copyright and related rights for this page only waived via CC0
+
+http://creativecommons.org/publicdomain/zero/1.0/
+
+</a>.
+-->
 <html>
 
   <head>
     <script type="text/javascript" src="http://localhost:5000/tuokcehc.js"></script>
+
+    <script type="text/javascript">
+        function demoStripeTokenCallback(token) {
+            console.log("demoStripeTokenCallback: " + token);
+        }
+
+        setStripePublishableKey("pubkey_1");
+        setStripeTokenCallback(demoStripeTokenCallback);
+    </script>
   </head>
 
   <body>

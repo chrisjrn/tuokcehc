@@ -8,16 +8,16 @@
  * Copyright (C) 2017  Christopher Neugebauer
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * As additional permission under GNU GPL version 3 section 7, you
@@ -30,9 +30,30 @@
  * for the JavaScript code in this file.
  */
 
-
 var TUOKCEHC_PAYMENT_FRAME_ID = "tuokcehc-payment-frame"
 
+
+/** Set the Stripe publishable key.
+@param newStripePublishableKey the publishable key
+*/
+function setStripePublishableKey(newStripePublishableKey) {
+   tuokcehcStripePublishableKey = newStripePublishableKey;
+}
+
+
+/** Set the callback for the token once it is sent back by Stripe.
+
+@param newCallback a function(token), which accepts `token`, a string containing
+the Stripe API token for the user's card details.
+*/
+function setStripeTokenCallback(newCallback) {
+ tuokcehcStripeCallback = newCallback;
+}
+
+
+/** Creates an iframe that points to the cardholder data form, which must be served
+from a PCI-compliant environment
+*/
 function doCheckout() {
 
     /* Create background element */
@@ -113,20 +134,10 @@ function receiveTuokcehcMessage(message) {
 }
 
 
-var tuokcehcStripePublishableKey = "";
-function setStripePublishableKey(newStripePublishableKey) {
-    tuokcehcStripePublishableKey = newStripePublishableKey;
-}
-
+window.addEventListener("message", receiveTuokcehcMessage, false);
 
 var tuokcehcStripeCallback = function(token) {
     console.log("Replace this callback by calling setStripeTokenCallback()");
     console.log(token);
 }
-
-
-function setStripeTokenCallback(newCallback) {
-  tuokcehcStripeCallback = newCallback;
-}
-
-window.addEventListener("message", receiveTuokcehcMessage, false);
+var tuokcehcStripePublishableKey = "";
