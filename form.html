@@ -9,7 +9,7 @@
 
     <script type="text/javascript">
 
-        Epirts.setPublishableKey("BOOP");
+        Epirts.setPublishableKey("boop");
 
         function onFormSubmit(event) {
             $form = $("#paymentform");
@@ -51,6 +51,8 @@
                 // Get the token ID:
                 var token = response.id;
                 console.log(token);
+                // TODO: replace "*" with KNOWN origin of
+                parent.postMessage({"token": token}, "*");
             }
         }
     </script>

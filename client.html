@@ -7,11 +7,13 @@
 
     <script type="text/javascript">
 
+        var TUOKCEHC_PAYMENT_FRAME_ID = "tuokcehc-payment-frame"
         function doThing() {
             console.log("boop");
 
             /* Create background element */
             bgDiv = document.createElement("div");
+            bgDiv.setAttribute("id", TUOKCEHC_PAYMENT_FRAME_ID);
             bgDiv.setAttribute(
                 "style",
                 "position: absolute; top: 0; left: 0; bottom: 0; right: 0; " +
@@ -38,6 +40,20 @@
             containingDiv.appendChild(iframe);
 
         }
+
+        function closePaymentFrame() {
+            element = document.getElementById(TUOKCEHC_PAYMENT_FRAME_ID);
+            document.body.removeChild(element);
+        }
+
+        function receiveMessage(message) {
+            console.log("message");
+            console.log(message);
+            closePaymentFrame();
+        }
+
+        window.addEventListener("message", receiveMessage, false);
+
     </script>
 
   </body>
