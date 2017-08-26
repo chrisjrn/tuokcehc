@@ -1,9 +1,11 @@
 <html>
 
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script type="text/javascript" src="epirts/epirts.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
 
     <script type="text/javascript">
 
@@ -40,8 +42,8 @@
                 // Show the errors on the form
                 console.log(response.error.message);
                 $form.find('button').prop('disabled', false); // Re-enable submission
-                return;
-                $form.find('.payment-errors').text(response.error.message);
+                $form.find('#payment-errors').text(response.error.message);
+                $form.find('#payment-errors').show();
 
             } else {
                 // Token was created!
@@ -56,23 +58,77 @@
   </head>
 
   <body>
+    <div class="container">
 
-    <form id="paymentform" >
+      <form id="paymentform">
 
-      <input type="text" name="number">
-      <input type="text" name="exp_month">
-      <input type="text" name="exp_year">
-      <input type="text" name="cvc">
-      <input type="text" name="name">
-      <input type="text" name="address_line1">
-      <input type="text" name="address_line2">
-      <input type="text" name="address_city">
-      <input type="text" name="address_state">
-      <input type="text" name="address_zip">
-      <input type="text" name="address_country">
+        <div class="panel panel-primary">
 
-      <button role="submit">Submit</button>
+          <div class="panel-heading">
+            <h2 class="panel-title">Payment card details</h2>
+          </div>
 
+          <div class="panel-body">
+
+            <div id="payment-errors" hidden class="alert alert-danger" role="alert">
+              There is an error.
+            </div>
+
+            <h4>Card Details</h4>
+
+            <div class="form-group row">
+              <div class="col-xs-6">
+                <label for="number" class="sr-only">Card Number</label>
+                <input class="form-control input-group-lg" type="text" name="number" placeholder="Card Number" maxlength="16" required>
+              </div>
+              <div class="col-xs-2">
+                <label for="exp_month" class="sr-only">Expiry Month</label>
+                <input class="form-control input-group-lg" type="text" name="exp_month" placeholder="MM" maxlength="2" required>
+              </div>
+              <div class="col-xs-2">
+                <label for="exp_year" class="sr-only">Year</label>
+                <input class="form-control input-group-lg" type="text" name="exp_year" placeholder="YYYY" maxlength="4" required>
+              </div>
+              <div class="col-xs-2">
+                <label for="cvc" class="sr-only">CVC</label>
+                <input class="form-control input-group-lg" type="text" name="cvc" placeholder="CVC" maxlength="4" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="sr-only">Cardholder Name</label>
+                <input class="form-control" type="text" name="name" placeholder="Cardholder Name">
+            </div>
+
+            <h4>Address</h4>
+
+            <div class="form-group">
+              <label for="address_line1" class="sr-only">Line 1</label>
+              <input class="form-control" type="text" name="address_line1" placeholder="Line 1">
+
+              <label for="address_line2" class="sr-only">Line 2</label>
+              <input class="form-control" type="text" name="address_line2" placeholder="Line 2">
+
+              <label for="address_city" class="sr-only">City</label>
+              <input class="form-control" type="text" name="address_city" placeholder="City">
+
+              <label for="address_state" class="sr-only">State/Territory/Province</label>
+              <input class="form-control" type="text" name="address_state" placeholder="State/Territory/Province">
+
+              <label for="address_zip" class="sr-only">ZIP/Postcode</label>
+              <input class="form-control" type="text" name="address_zip" placeholder="ZIP/Postcode">
+
+              <label for="address_country" class="sr-only">Country</label>
+              <input class="form-control" type="text" name="address_country" placeholder="Country">
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <button class="btn btn-primary" role="submit">Submit</button>
+          </div>
+
+        </div>
+      </div>
     </form>
 
     <script type="text/javascript">
