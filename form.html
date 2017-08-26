@@ -1,0 +1,62 @@
+<html>
+
+  <head>
+
+    <script type="text/javascript" src="epirts/epirts.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+
+    <script type="text/javascript">
+      function onFormSubmit(event) {
+          form = $("#paymentform");
+
+          fields = [
+              'number', 'exp_month', 'exp_year', 'cvc', 'name',
+              'address_line1', 'address_line2', 'address_city',
+              'address_state', 'address_zip', 'address_country'
+          ];
+
+          values = Object();
+          for (i = 0; i < fields.length; i++) {
+              name = fields[i];
+              values[name] = form.find("input[name="+ fields[i] +"]").val();
+          }
+
+          Epirts.setPublishableKey(key);
+
+          Epirts.card.createToken(values, stripeResponseHandler);
+
+          event.preventDefault();
+          return false;
+      }
+
+    </script>
+
+  </head>
+
+  <body>
+
+    <form id="paymentform" >
+
+      <input type="text" name="number">
+      <input type="text" name="exp_month">
+      <input type="text" name="exp_year">
+      <input type="text" name="cvc">
+      <input type="text" name="name">
+      <input type="text" name="address_line1">
+      <input type="text" name="address_line2">
+      <input type="text" name="address_city">
+      <input type="text" name="address_state">
+      <input type="text" name="address_zip">
+      <input type="text" name="address_country">
+
+      <input type="submit">
+
+    </form>
+
+    <script type="text/javascript">
+      $("#paymentform").submit(onFormSubmit);
+    </script>
+
+  </body>
+
+</html>
