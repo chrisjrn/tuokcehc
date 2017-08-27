@@ -9,7 +9,7 @@ Once tokenization is successful, the token is sent back to your web application,
 
 
 # Deployment
-This is a flask app that is designed to be deployed on a server in a PCI-compliant environment. In particular, the `form` endpoints and `iframe-support.js` code MUST be deployed in a PCI-compliant environment.
+This is a flask app that is designed to be deployed on a server in a PCI-compliant environment (see below). In particular, the `form` endpoints and `iframe-support.js` code MUST be deployed in a PCI-compliant environment.
 
 You must specify a JSON list of Stripe publishable keys as an environment variable; the flask app will reject any requests that use a publishable key that is not specified. e.g.
 
@@ -20,7 +20,7 @@ $ flask run FLASK_APP=tuokcehc.py flask run
 
 
 # Embedding the javascript
-`tuokcehc.js` is designed to be embedded on your own web application, like Stripe's `checkout.js`. Your web application doesn't necessarily need to be PCI-compliant, unless it is handling credit card data.
+`tuokcehc.js` is designed to be embedded on your own web application, like Stripe's `checkout.js`. Your web application that embeds `tuokcehc.js` must be deployed in a PCI-compliant environment, however, you may only need to file the shorter SAQ A (see below) unless it also directly handles credit card data.
 
 You must call two js functions -- `setStripePublishableKey()` and `setStripeTokenCallback()`, as follows:
 
@@ -48,20 +48,24 @@ E-commerce merchants who "fully outsource" all cardholder data processing to a
 PCI DSS compliant third-party payment processor (by redirecting to or loading in
 an iframe a payment page served by the payment processor) can file SAQ A.  This
 applies to merchants who use the non-free Stripe.js program, because it loads a
-payment page from Stripe in an iframe.
+payment page from Stripe in an iframe. It may also apply to merchants who embed
+`tuokcehc.js`, because it also loads the payment page from the Flask
+application in an iframe.
 
 E-commerce merchants who "partially outsource" their payment processing (e.g. by
 serving their own payment page and sending cardholder data to a payment
 processor by JSONP) must file the longer SAQ A-EP and have quarterly
 vulnerability scans performed by an Approved Scanning Vendor.  This applies to
-merchants who use Epirts.js, because it uses JSONP instead of an iframe, to
-avoid causing the customer to run non-free JavaScript programs loaded by
-Stripe's payment page.
+merchants who use Epirts.js, including the `tuokcehc.js` Flask application,
+because it uses JSONP instead of an iframe to communicate with Stripe, to avoid
+causing the customer to run non-free JavaScript programs loaded by Stripe's
+payment page.
 
 Therefore, under PCI DSS 3.0, **Epirts.js may not be used to process live
 payment cards without first completing PCI SAQ A-EP and having an ASV perform
-quarterly vulnerability scans**.  Currently, the only way to control your
-store's checkout process and ensure that no non-free JavaScript programs are
-distributed to your customers is to use a program like Epirts.js (or process
-cardholder data directly on your server) and pay for a scanning service.  Such
-is the state of payment processing.
+quarterly vulnerability scans, or deploying to a hosting environment that
+itself certifies that it performs such vulnerability scans**.  Currently, the
+only way to control your store's checkout process and ensure that no non-free
+JavaScript programs are distributed to your customers is to use a program like
+Epirts.js (or process cardholder data directly on your server) and pay for a
+scanning service.  Such is the state of payment processing.
