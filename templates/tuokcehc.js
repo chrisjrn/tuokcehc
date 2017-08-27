@@ -99,7 +99,7 @@ function doCheckout() {
 
     /* Create a form to post data into the iframe */
     form = document.createElement("form");
-    form.setAttribute("action", "{{ request.scheme }}://{{ request.host }}/form");
+    form.setAttribute("action", "{{ request.url_root }}form");
     form.setAttribute("target", FORM_IFRAME_NAME);
     form.setAttribute("method", "POST");
     form.setAttribute("hidden", true);
