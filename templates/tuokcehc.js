@@ -121,7 +121,6 @@ function closePaymentFrame() {
 }
 
 function receiveTuokcehcMessage(message) {
-    console.log(message);
     data = message.data;
     token = data.token;
 
