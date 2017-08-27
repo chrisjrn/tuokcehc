@@ -70,6 +70,6 @@ function stripeResponseHandler(status, response) {
 
         // Get the token ID:
         var token = response.id;
-        parent.postMessage({"token": token}, window.referrer);
+        parent.postMessage({"token": token}, "*");
     }
 }
