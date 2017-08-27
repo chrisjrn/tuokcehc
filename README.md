@@ -20,7 +20,7 @@ $ flask run FLASK_APP=tuokcehc.py flask run
 
 
 # Embedding the javascript
-`tuokcehc.js` is designed to be embedded on your own web application, like Stripe's `checkout.js`. Your web application that embeds `tuokcehc.js` must be deployed in a PCI-compliant environment, however, you may only need to file the shorter SAQ A (see below) unless it also directly handles credit card data.
+`tuokcehc.js` is designed to be embedded on your own web application, like Stripe's `checkout.js`. Your web application that embeds `tuokcehc.js` may not necessarily need to be in a PCI-compliant environment, however, you should consult appropriate PCI-DSS documentation to determine what your compliance responsibilities are.
 
 You must call two js functions -- `setStripePublishableKey()` and `setStripeTokenCallback()`, as follows:
 
@@ -64,8 +64,10 @@ payment page.
 Therefore, under PCI DSS 3.0, **Epirts.js may not be used to process live
 payment cards without first completing PCI SAQ A-EP and having an ASV perform
 quarterly vulnerability scans, or deploying to a hosting environment that
-itself certifies that it performs such vulnerability scans**.  Currently, the
-only way to control your store's checkout process and ensure that no non-free
-JavaScript programs are distributed to your customers is to use a program like
-Epirts.js (or process cardholder data directly on your server) and pay for a
-scanning service.  Such is the state of payment processing.
+itself certifies that it performs such vulnerability scans**.  
+
+Currently, the only way to control your store's checkout process and ensure
+that no non-free JavaScript programs are distributed to your customers is to
+use a program like Epirts.js (or process cardholder data directly on your
+server) and pay for a scanning service.  Such is the state of payment
+processing.
