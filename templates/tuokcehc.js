@@ -61,7 +61,7 @@ function doCheckout() {
     bgDiv.setAttribute("id", TUOKCEHC_PAYMENT_FRAME_ID);
     bgDiv.setAttribute(
         "style",
-        "position: absolute; top: 0; left: 0; bottom: 0; right: 0; " +
+        "position: fixed; top: 0; left: 0; bottom: 0; right: 0; " +
         "background: rgba(0, 0, 0, 0.8); "
     );
     document.body.appendChild(bgDiv);
