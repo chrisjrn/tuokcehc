@@ -22,7 +22,11 @@ http://creativecommons.org/publicdomain/zero/1.0/
 
   <body>
 
-    <button role="button" onClick="doCheckout()">Do Thing</button>
+    <form action="http://localhost:5000/form" method="post">
+      <input type="hidden" name="pubkey" value="pubkey_1">
+      <input type="hidden" name="posturl" value="http://localhost:8000">
+      <button role="submit">Do Thing</button>
+    </form>
 
   </body>
 

@@ -1,6 +1,6 @@
 '''
  Tuokcehc.js -- tuokcehc.py
- Free software replacement for Stripe Checkout based on epirts.js
+ Free software payment tokenisation
 
  @licstart  The following is the entire license notice for the
  Python code in this file.
@@ -55,6 +55,7 @@ def client_js():
 def form():
 
     pubkey = request.form["pubkey"]
+    posturl = request.form["posturl"]
 
     VALID_PUBKEYS = set(json.loads(os.environ.get("VALID_PUBKEYS", "[]")))
 
@@ -63,6 +64,7 @@ def form():
 
     template_data = {
         "epirts_publishable_key": pubkey,
+        "submit_post_url": posturl,
     }
 
     return render_template('form.html', **template_data)

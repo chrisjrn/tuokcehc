@@ -1,6 +1,6 @@
 /*
  * Tuokcehc.js
- * Free software replacement for Stripe Checkout based on epirts.js
+ * Free software payment tokenisation
  *
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.

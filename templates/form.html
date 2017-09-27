@@ -1,7 +1,7 @@
 <!---
     /*
      * Tuokcehc.js -- form.html
-     * Free software replacement for Stripe Checkout based on epirts.js
+     * Free software payment tokenisation
      *
      * @licstart  The following is the entire license notice for the
      * HTML code in this file.
@@ -43,12 +43,18 @@
     <script type="text/javascript" src="static/iframe-support.js"></script>
 
     <script type="text/javascript">
-      Epirts.setPublishableKey("{{ epirts_publishable_key }}");
+    Epirts.setPublishableKey("{{ epirts_publishable_key }}");
+    setOnSubmitPostUrl("{{ submit_post_url }}");
     </script>
 
   </head>
 
   <body style="background: rgba(0,0,0,0);">
+
+    <div class="container">
+
+      <h1>Conference Name</h1>
+      <p class="lead">Payments are processed by Stripe on behalf of Organization.</h2>
 
       <form id="paymentform">
 
@@ -127,6 +133,8 @@
       $("#loading-info").hide();
       $("#paymentform").submit(onFormSubmit);
     </script>
+
+  </div>
 
   </body>
 

@@ -1,6 +1,6 @@
 /*
  * Tuokcehc.js -- iframe-support.js
- * Free software replacement for Stripe Checkout based on epirts.js
+ * Free software payment tokenisation
  *
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
@@ -30,6 +30,12 @@
  * for the JavaScript code in this file.
  */
 
+var onSubmitPostUrl = "";
+
+function setOnSubmitPostUrl(url) {
+    onSubmitPostUrl = url;
+    console.log(onSubmitPostUrl);
+}
 
 function onFormSubmit(event) {
     $form = $("#paymentform");
@@ -48,6 +54,7 @@ function onFormSubmit(event) {
         values[name] = $form.find("input[name="+ fields[i] +"]").val();
     }
 
+
     Epirts.card.createToken(values, stripeResponseHandler);
 
     event.preventDefault();
@@ -57,7 +64,7 @@ function onFormSubmit(event) {
 function stripeResponseHandler(status, response) {
 
   $form = $("#paymentform");
-
+  console.log("bleep");
   if (response.error) { // Problem!
         // Show the errors on the form
         console.log(response.error.message);
@@ -67,9 +74,18 @@ function stripeResponseHandler(status, response) {
 
     } else {
         // Token was created!
-
+        console.log("floop");
         // Get the token ID:
         var token = response.id;
-        parent.postMessage({"token": token}, "*");
+
+        $cake = $("<div>").html(
+            '<form name="cake" action="' + onSubmitPostUrl + '" method="post" style="display:none;"><input type="hidden" name="stripe_token" value="' + token + '" /><button role="submit"></form>'
+        );
+
+        $("body").append($cake);
+
+        console.log($cake);
+
+        //document.forms["cake"].submit();
     }
 }
