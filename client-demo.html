@@ -11,22 +11,13 @@ http://creativecommons.org/publicdomain/zero/1.0/
     <script type="text/javascript" src="http://localhost:5000/tuokcehc.js"></script>
 
     <script type="text/javascript">
-        function demoStripeTokenCallback(token) {
-            console.log("demoStripeTokenCallback: " + token);
-        }
-
-        setStripePublishableKey("pubkey_1");
-        setStripeTokenCallback(demoStripeTokenCallback);
+        setStripeParams("pubkey_1", "https://localhost:8000", "csrftoken");
     </script>
   </head>
 
   <body>
 
-    <form action="http://localhost:5000/form" method="post">
-      <input type="hidden" name="pubkey" value="pubkey_1">
-      <input type="hidden" name="posturl" value="http://localhost:8000">
-      <button role="submit">Do Thing</button>
-    </form>
+    <button role="submit">Do Thing</button>
 
   </body>
 

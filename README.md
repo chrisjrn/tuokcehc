@@ -5,7 +5,7 @@ A Free Software tokenisation environment for Stripe based on `epirts.js`
 # How does it work?
 Like Stripe's proprietary JS programs, a client-side JavaScript file is embedded in your own web site. When `doCheckout()` is called, an iframe is created, which displays a form that accepts cardholder data, which is sent off to Stripe for tokenization.
 
-Once tokenization is successful, the token is sent back to your web application, for you to handle.
+Once tokenization is successful, the browser will automatically post to a specified form.
 
 
 # Deployment
@@ -22,12 +22,15 @@ $ flask run FLASK_APP=tuokcehc.py flask run
 # Embedding the javascript
 `tuokcehc.js` is designed to be embedded on your own web application, like Stripe's `checkout.js`. Your web application that embeds `tuokcehc.js` may not necessarily need to be in a PCI-compliant environment, however, you should consult appropriate PCI-DSS documentation to determine what your compliance responsibilities are.
 
-You must call two js functions -- `setStripePublishableKey()` and `setStripeTokenCallback()`, as follows:
+You must call the js function -- `setStripeParams()` as follows:
 
 ```
-setStripePublishableKey("pubkey_1");
-setStripeTokenCallback(function(token) { console.log(token); });
+setStripePublishableKey("pubkey_1", "https://callback.url", "csrf_token");
 ```
+
+You must provide a URL at your defined callback.url that accepts POST requests. Once the card data has been accepted, tuokcehc will make a post request with one parameter: `stripe_token`, which is a Stripe token corresponding to the captured cardholder data.
+
+The CSRF token should be your web framework's CSRF token, just in case your all needs one.
 
 Finally, you must provide a link that calls `doCheckout()` when clicked -- this will pop up the iframe that will perform the tokenization.
 

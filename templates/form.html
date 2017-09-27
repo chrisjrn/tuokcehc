@@ -45,16 +45,12 @@
     <script type="text/javascript">
     Epirts.setPublishableKey("{{ epirts_publishable_key }}");
     setOnSubmitPostUrl("{{ submit_post_url }}");
+    setCsrfToken("{{ csrf_token }}");
     </script>
 
   </head>
 
   <body style="background: rgba(0,0,0,0);">
-
-    <div class="container">
-
-      <h1>Conference Name</h1>
-      <p class="lead">Payments are processed by Stripe on behalf of Organization.</h2>
 
       <form id="paymentform">
 
@@ -133,8 +129,6 @@
       $("#loading-info").hide();
       $("#paymentform").submit(onFormSubmit);
     </script>
-
-  </div>
 
   </body>
 

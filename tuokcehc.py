@@ -56,6 +56,7 @@ def form():
 
     pubkey = request.form["pubkey"]
     posturl = request.form["posturl"]
+    csrf = request.form["csrf"]
 
     VALID_PUBKEYS = set(json.loads(os.environ.get("VALID_PUBKEYS", "[]")))
 
@@ -65,6 +66,7 @@ def form():
     template_data = {
         "epirts_publishable_key": pubkey,
         "submit_post_url": posturl,
+        "csrf_token": csrf,
     }
 
     return render_template('form.html', **template_data)

@@ -30,12 +30,13 @@
  * for the JavaScript code in this file.
  */
 
-var onSubmitPostUrl = "";
+ function setOnSubmitPostUrl(url) {
+     onSubmitPostUrl = url;
+ }
 
-function setOnSubmitPostUrl(url) {
-    onSubmitPostUrl = url;
-    console.log(onSubmitPostUrl);
-}
+ function setCsrfToken(csrf) {
+     csrfToken = csrf;
+ }
 
 function onFormSubmit(event) {
     $form = $("#paymentform");
@@ -64,7 +65,6 @@ function onFormSubmit(event) {
 function stripeResponseHandler(status, response) {
 
   $form = $("#paymentform");
-  console.log("bleep");
   if (response.error) { // Problem!
         // Show the errors on the form
         console.log(response.error.message);
@@ -74,18 +74,15 @@ function stripeResponseHandler(status, response) {
 
     } else {
         // Token was created!
-        console.log("floop");
         // Get the token ID:
         var token = response.id;
 
-        $cake = $("<div>").html(
-            '<form name="cake" action="' + onSubmitPostUrl + '" method="post" style="display:none;"><input type="hidden" name="stripe_token" value="' + token + '" /><button role="submit"></form>'
+        $tokenform = $("<div>").html(
+            '<form name="tokenform" target="_parent" action="' + onSubmitPostUrl + '" method="post" style="display:none;"><input type="hidden" name="stripe_token" value="' + token + '" /><input type="hidden" name="csrf_token" value="' + csrfToken + '" /><button role="submit"></form>'
         );
 
-        $("body").append($cake);
+        $("body").append($tokenform);
 
-        console.log($cake);
-
-        //document.forms["cake"].submit();
+        document.forms["tokenform"].submit();
     }
 }

@@ -35,19 +35,13 @@ var TUOKCEHC_PAYMENT_FRAME_ID = "tuokcehc-payment-frame"
 
 /** Set the Stripe publishable key.
 @param newStripePublishableKey the publishable key
+@param newTokenReceiveUrl the URL that will receive the POST request at the end of the process
+@param newCsrfToken a CSRF token for this form
 */
-function setStripePublishableKey(newStripePublishableKey) {
-   tuokcehcStripePublishableKey = newStripePublishableKey;
-}
-
-
-/** Set the callback for the token once it is sent back by Stripe.
-
-@param newCallback a function(token), which accepts `token`, a string containing
-the Stripe API token for the user's card details.
-*/
-function setStripeTokenCallback(newCallback) {
- tuokcehcStripeCallback = newCallback;
+function setStripeParams(newStripePublishableKey, newTokenReceiveUrl, newCsrfToken) {
+  tuokcehcStripePublishableKey = newStripePublishableKey;
+  tuokcehcTokenReceiveUrl = newTokenReceiveUrl;
+  tuokcehcCsrfToken = newCsrfToken;
 }
 
 
@@ -104,11 +98,21 @@ function doCheckout() {
     form.setAttribute("method", "POST");
     form.setAttribute("hidden", true);
 
-    pubkeyInput = document.createElement("input");
-    pubkeyInput.setAttribute("name", "pubkey");
-    pubkeyInput.setAttribute("type", "hidden");
-    pubkeyInput.setAttribute("value", tuokcehcStripePublishableKey);
+    function createElement(name, value) {
+      input = document.createElement("input");
+      input.setAttribute("name", name);
+      input.setAttribute("type", "hidden");
+      input.setAttribute("value", value);
+      return input;
+    }
+
+    pubkeyInput = createElement("pubkey", tuokcehcStripePublishableKey);
+    postUrlInput = createElement("posturl", tuokcehcTokenReceiveUrl);
+    csrfInput = createElement("csrf", tuokcehcCsrfToken);
+
     form.appendChild(pubkeyInput);
+    form.appendChild(postUrlInput);
+    form.appendChild(csrfInput);
 
     bgDiv.appendChild(form);
     form.submit();
