@@ -123,24 +123,4 @@ function closePaymentFrame() {
     element = document.getElementById(TUOKCEHC_PAYMENT_FRAME_ID);
     document.body.removeChild(element);
 }
-
-function receiveTuokcehcMessage(message) {
-    data = message.data;
-    token = data.token;
-
-    if (event.origin != "{{ request.scheme }}://{{ request.host }}") {
-        return;
-    }
-
-    tuokcehcStripeCallback(token);
-    closePaymentFrame();
-}
-
-
-window.addEventListener("message", receiveTuokcehcMessage, false);
-
-var tuokcehcStripeCallback = function(token) {
-    console.log("Replace this callback by calling setStripeTokenCallback()");
-    console.log(token);
-}
 var tuokcehcStripePublishableKey = "";
