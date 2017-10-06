@@ -72,34 +72,53 @@ var Stripe = Epirts = (function() {
 				callback = arg3;
 			}
 
-			where = document.getElementsByTagName('script')[0];
-			script = document.createElement('script');
-			script.type = 'text/javascript';
-			script.async = true;
-
+			/*
 			func = 'sjsonp' + ++_cb_time;
 			window[func] = function(response, status) {
 				callback(status, response);
 				script.parentNode.removeChild(script);
-			}
+			}*/
 
-			url = Epirts.endpoint + '/tokens?';
+			url = Epirts.endpoint + '/tokens';
+			postData = Object();
 			for (i = 0; i < _properties.length; ++i) {
 				prop = _properties[i];
 				if (data.hasOwnProperty(prop)) {
-					url += 'card[' + prop + ']=' +
-						data[prop] + '&';
+					postData['card[' + prop + ']'] = data[prop];
 				}
 			}
+
+			/*
 			if (amount !== undefined) {
 				url += 'amount=' + amount + '&';
-			}
-			url += 'key=' + _key;
-			url += '&callback=' + func;
-			url += '&_method=POST';
-			script.src = url;
+			}*/
+			//url += 'key=' + _key;
+			//url += '&callback=' + func;
+			//url += '&_method=POST';
+			/*script.src = url;
 
 			where.parentNode.insertBefore(script, where);
+			*/
+
+			successCallback = function(data, textStatus, jqXHR) {
+				callback(status, jqXHR.responseJSON);
+			};
+
+			errorCallback = function(jqXHR,  textStatus,  errorThrown) {
+				callback(status, jqXHR.responseJSON);
+			};
+
+			$.ajax({
+					type: "POST",
+					url: url,
+					data: postData,
+					error: errorCallback,
+					success: successCallback,
+					dataType: "json",
+					beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Bearer ' + _key); }
+			});
+
+
 		};
 
 		pub.validateCardNumber = function(number) {
